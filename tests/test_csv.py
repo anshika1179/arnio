@@ -1401,3 +1401,10 @@ class TestArFrameGetItem:
         frame = ar.read_csv(csv_path)
         result = frame["first name"]
         assert result == ["John"]
+
+
+class TestInferTypeLocaleAndNumericEdgeCases:
+    def test_float_decimal_dot(self, tmp_path):
+        path = tmp_path / "t.csv"
+        path.write_text("v\n3.14\n")
+        assert ar.read_csv(path).dtypes["v"] == "float64"
