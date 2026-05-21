@@ -353,9 +353,7 @@ class TestOnBadLinesQuotedDelimiters:
 class TestOnBadLinesMultilineRecords:
     def test_multiline_record_is_not_classified_bad(self, tmp_path):
         csv_path = tmp_path / "multiline_good.csv"
-        # The "line1\nline2" field spans two physical lines but is one logical
-        # record with 3 fields.
-        csv_path.write_text('a,b,c\n"line1\nline2",p,q\n1,2,3\n')
+        csv_path.write_bytes(b'a,b,c\n"line1\nline2",p,q\n1,2,3\n')
         with warnings.catch_warnings(record=True) as caught:
             warnings.simplefilter("always")
             frame = ar.read_csv(csv_path, on_bad_lines="warn")
